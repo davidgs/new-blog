@@ -1,6 +1,7 @@
 import Page2 from "./Page2";
 import RotatingHead from "./components/RotatingHead";
 import Typer from "./components/Typer";
+import background from "./assets/images/background2.jpg";
 
 
 export default function Home() {
@@ -9,44 +10,42 @@ export default function Home() {
     <div
       style={{
         position: "absolute",
-        height: "100vh",
         top: "30px",
-        width: "1fr",
+        width: `calc(100vw - 14rem)`,
         overflow: "hidden",
       }}
     >
       <img
-        src="https://davidgs.com/images/site/background2.jpg"
+        src={background}
         alt="DavidGS.com"
         height={"100%"}
+        id="bg-img"
+        style={{
+          objectFit: "contain",
+        }}
       />
       <div
         style={{
           justifyContent: "center",
-          top: "50%",
-          transform: "translate(25%, -50%)",
+          top: "30%",
+          transform: "translate(100%, -50%)",
           paddingLeft: "10rem",
+          marginBottom: "1rem",
           position: "absolute",
           textAlign: "center",
           margin: "auto",
+          clear: "both",
         }}
       >
-        <div
-          style={{
-            width: "170px",
-            height: "170px",
-            color: "white",
-            margin: "auto",
-          }}
-        >
           <RotatingHead />
-        </div>
         <div
           style={{
             width: "500px",
-            display: "flex",
+            position: "absolute",
             justifyContent: "center",
-            left: `calc(100vw/2)`,
+            left: `calc(1vw/2)`,
+            marginTop: "1rem",
+            clear: "both",
           }}
         >
           <Typer />

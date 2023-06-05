@@ -1,8 +1,10 @@
 import React, { useState, useEffect, useMemo } from "react";
 
 const Typer: React.FC = () => {
-  const [currentStringIndex, setCurrentStringIndex] = useState(0);
-  const [currentCharIndex, setCurrentCharIndex] = useState(0);
+  const [currentStringIndex, setCurrentStringIndex] = useState<number>(0);
+  const [currentCharIndex, setCurrentCharIndex] = useState<number>(0);
+  const [isForward, setIsForward] = useState(true); // Track forward/backward state
+  const [typeSpeed, setTypeSpeed] = useState<number>(200); // 200 milliseconds
 
   const stringList = [
       "I am a Developer Advocate",
@@ -15,27 +17,47 @@ const Typer: React.FC = () => {
   ];
 
   useEffect(() => {
-    const interval = setInterval(() => {
+
+    const typeString = () => {
       setCurrentCharIndex((prevIndex) => {
-        if (prevIndex < stringList[currentStringIndex].length - 1) {
-          return prevIndex + 1;
+        const currentString = stringList[currentStringIndex];
+        const stringLength = currentString.length;
+
+        if (isForward) {
+          // Type the string forwards
+          if (prevIndex < stringLength - 1) {
+            return prevIndex + 1;
+          } else {
+            setIsForward(false); // Switch to typing backwards
+            setTypeSpeed(75); // Wait 100 milliseconds
+            return prevIndex;
+          }
         } else {
-          const randNum = Math.floor(Math.random() * 7);
-          setCurrentStringIndex(randNum);
-          // setCurrentStringIndex(
-          //   (prevIndex) => (prevIndex + 1) % stringList.length
-          // );
-          return 0;
+          // Type the string backwards
+          if (prevIndex > 0) {
+            return prevIndex - 1;
+          } else {
+            setIsForward(true); // Switch to typing forwards
+            setTypeSpeed(200); // Wait 200 milliseconds
+            const randNum = Math.floor(Math.random() * 7);
+            setCurrentStringIndex(randNum); // Move to the next string
+            return 0;
+          }
         }
       });
-    }, 250); // 1 second
+    };
 
-    return () => clearInterval(interval);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentStringIndex]);
+    const timer = setInterval(typeString, typeSpeed); // 200 milliseconds
+
+    return () => {
+      clearInterval(timer);
+    };
+  }, [currentStringIndex, isForward]);
+
+
 
   return (
-    <div style={{textAlign: 'center', color: 'white', fontSize: '24px'}}>{stringList[currentStringIndex].slice(0, currentCharIndex + 1)} |</div>
+    <div style={{textAlign: 'center', color: 'white', fontSize: '24px'}}>{stringList[currentStringIndex].slice(0, currentCharIndex + 1)}{isForward ? '✎' : '✐'}</div>
   );
 };
 

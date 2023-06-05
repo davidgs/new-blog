@@ -990,5 +990,9 @@ a.sidebar-nav-item:focus {
     position: absolute;
     color: #f9fafc;
     font-size: 2.5rem !important;
-    
+
+}
+
+#bg-img {
+  object-fit: contain;
 }
